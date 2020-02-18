@@ -1,8 +1,168 @@
-﻿@{
+﻿@model Ip2LocationApp.Models.IPParam
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<h2>IP2Location</h2>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td style="font-weight: bold; padding-right: 20px;">IP Address</td>
+            <td>
+                @Html.TextBoxFor(m => m.IP)
+                <input type="submit" value="Send IP" />
+            </td>
+        </tr>
+    </table>
+
+}
+
+@if ((Model != null) && (Model.oIPResult != null))
+{
+    switch (Model.oIPResult.Status)
+    {
+        case "OK":
+            <table>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Country Code</td>
+                    <td>
+                        @Model.oIPResult.CountryShort
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Country Name</td>
+                    <td>
+                        @Model.oIPResult.CountryLong
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Region Name</td>
+                    <td>
+                        @Model.oIPResult.Region
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">City Name</td>
+                    <td>
+                        @Model.oIPResult.City
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Latitude</td>
+                    <td>
+                        @Model.oIPResult.Latitude
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Longitude</td>
+                    <td>
+                        @Model.oIPResult.Longitude
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">ZIP Code</td>
+                    <td>
+                        @Model.oIPResult.ZipCode
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Time Zone</td>
+                    <td>
+                        @Model.oIPResult.TimeZone
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">ISP</td>
+                    <td>
+                        @Model.oIPResult.InternetServiceProvider
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Domain</td>
+                    <td>
+                        @Model.oIPResult.DomainName
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Net Speed</td>
+                    <td>
+                        @Model.oIPResult.NetSpeed
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">IDD Code</td>
+                    <td>
+                        @Model.oIPResult.IDDCode
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Area Code</td>
+                    <td>
+                        @Model.oIPResult.AreaCode
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Weather Station Code</td>
+                    <td>
+                        @Model.oIPResult.WeatherStationCode
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Weather Station Name</td>
+                    <td>
+                        @Model.oIPResult.WeatherStationName
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">MCC</td>
+                    <td>
+                        @Model.oIPResult.MCC
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">MNC</td>
+                    <td>
+                        @Model.oIPResult.MNC
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Mobile Brand</td>
+                    <td>
+                        @Model.oIPResult.MobileBrand
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Elevation</td>
+                    <td>
+                        @Model.oIPResult.Elevation
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding-right: 20px;">Usage Type</td>
+                    <td>
+                        @Model.oIPResult.UsageType
+                    </td>
+                </tr>
+            </table>
+            break;
+        case "EMPTY_IP_ADDRESS":
+            <div>
+                IP Address cannot be blank.
+            </div>
+            break;
+        case "INVALID_IP_ADDRESS":
+            <div>
+                Invalid IP Address.
+            </div>
+            break;
+        case "MISSING_FILE":
+            <div>
+                Invalid Database Path.
+            </div>
+            break;
+    }
+}
+
