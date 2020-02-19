@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Ip2LocationApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ip2LocationApp.Models;
 
 namespace Ip2LocationApp
 {
@@ -41,7 +42,7 @@ namespace Ip2LocationApp
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            services.AddDbContext<DataBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
