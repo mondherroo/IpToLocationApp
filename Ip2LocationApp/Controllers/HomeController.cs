@@ -52,8 +52,9 @@ namespace Ip2LocationApp.Controllers
         {
             ViewBag.Message = "IP2Location query page.";
             IPParam.oIPResult = new IP2Location.IPResult();
-            IPParam.oIPResult = oIP2Location.IPQuery(IPParam.IP);
-            var TimeZone = dataBContext.Ip.Where(a => a.city_name == IPParam.oIPResult.City).Select(x=>x.time_zone).FirstOrDefault();
+            IPParam.oIPResult = oIP2Location.IPQuery(IPParam.IP);           
+            long str = Convert.ToInt64(IPParam.oIPResult.IPNumber);
+            var TimeZone = dataBContext.Ip.Where(a => a.ip_from <= str && a.ip_to >= str).Select(x=>x.time_zone).FirstOrDefault();
             return Ok(TimeZone);
         }
     }
