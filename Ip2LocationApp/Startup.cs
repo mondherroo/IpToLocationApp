@@ -14,6 +14,8 @@ using Ip2LocationApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ip2LocationApp.Models;
+using System.IO.Compression;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace Ip2LocationApp
 {
@@ -44,6 +46,12 @@ namespace Ip2LocationApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDbContext<DataBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddResponseCompression();
+            services.Configure<GzipCompressionProviderOptions>
+            (options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

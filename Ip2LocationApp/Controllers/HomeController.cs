@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Data.SqlClient;
 
 namespace Ip2LocationApp.Controllers
 {
@@ -48,14 +51,14 @@ namespace Ip2LocationApp.Controllers
        
 
         [HttpPost]
-        public ActionResult Index(Models.IPParam IPParam,ip2location_db11 ip)
+        public ActionResult Index(Models.IPParam IPParam)
         {
             ViewBag.Message = "IP2Location query page.";
-            IPParam.oIPResult = new IP2Location.IPResult();
             IPParam.oIPResult = oIP2Location.IPQuery(IPParam.IP);           
             long str = Convert.ToInt64(IPParam.oIPResult.IPNumber);
-            var TimeZone = dataBContext.Ip.Where(a => a.ip_from <= str && a.ip_to >= str).Select(x=>x.time_zone).FirstOrDefault();
-            return Ok(TimeZone);
+            var timezone =  dataBContext.Ip.Where(a => a.ip_from <= str && a.ip_to >= str).Select(x=>x.time_zone).FirstOrDefault();
+            return Ok(timezone);
         }
+               
     }
 }
