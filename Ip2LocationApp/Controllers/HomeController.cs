@@ -38,7 +38,7 @@ namespace Ip2LocationApp.Controllers
                 oIP2Location = new IP2Location.Component
                 {
                     IPLicensePath = @"C:\Users\Administrator\Desktop\Ip2locAp\IpToLocationApp\Ip2LocationApp\wwwroot\license.key",
-                    IPDatabasePath = @"C:\Users\Administrator\Desktop\Ip2locAp\IpToLocationApp\Ip2LocationApp\wwwroot\IP2LOCATION-LITE-DB11.BIN"
+                    IPDatabasePath = @"D:\TempsDocker\IP2LOCATION-LITE-DB11.BIN"
                 };
             }
             base.OnActionExecuting(requestContext);

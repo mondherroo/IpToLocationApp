@@ -18,6 +18,7 @@ using System.IO.Compression;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Hosting;
 
 namespace Ip2LocationApp
 {
@@ -44,10 +45,12 @@ namespace Ip2LocationApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDbContext<DataBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddMemoryCache();
             services.AddResponseCaching();
             /*services.AddResponseCompression();
@@ -65,7 +68,7 @@ namespace Ip2LocationApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -83,14 +86,19 @@ namespace Ip2LocationApp
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseResponseCaching();
+
+            app.UseRouting();
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
         }
     }
 }
