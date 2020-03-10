@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Ip2LocationApp.Models;
 using System.IO.Compression;
 using Microsoft.AspNetCore.ResponseCompression;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Ip2LocationApp
 {
@@ -46,12 +48,20 @@ namespace Ip2LocationApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDbContext<DataBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddResponseCompression();
+            services.AddMemoryCache();
+            services.AddResponseCaching();
+            /*services.AddResponseCompression();
             services.Configure<GzipCompressionProviderOptions>
             (options =>
             {
                 options.Level = CompressionLevel.Fastest;
-            });
+            });*/
+            //string dbConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
+            //services.AddTransient<IDbConnection>((sp) => new SqlConnection(dbConnectionString));
+            //services.AddTransient<IIPRepository, IpRepository>();
+            var connectionString = new ConnectionString(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSingleton(connectionString);
+            services.AddScoped<IPRepository, PRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +82,7 @@ namespace Ip2LocationApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseResponseCaching();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

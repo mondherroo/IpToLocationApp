@@ -9,8 +9,8 @@ namespace Ip2LocationApp
     {
         public static IP2Location.Component IP2Location = new IP2Location.Component
         {
-            IPLicensePath = @"C:\Users\ASUS\source\repos\Ip2LocationApp\Ip2LocationApp\wwwroot\license.key",
-            IPDatabasePath = @"C:\Users\ASUS\source\repos\Ip2LocationApp\Ip2LocationApp\wwwroot\IP2LOCATION-LITE-DB11.BIN"
+            IPLicensePath = @"C:\Users\Administrator\Desktop\Ip2locAp\IpToLocationApp\Ip2LocationApp\wwwroot\license.key",
+            IPDatabasePath = @"C:\Users\Administrator\Desktop\Ip2locAp\IpToLocationApp\Ip2LocationApp\wwwroot\IP2LOCATION-LITE-DB11.BIN"
         };
     }
 }
